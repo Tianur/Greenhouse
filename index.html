@@ -1,363 +1,158 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IoT Sensor Dashboard Greenhouse SMKN 8 Pekanbaru</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        * {
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            margin: 0;
-            padding: 20px;
-            background-color: #f5f7fa;
-            color: #333;
-        }
-        
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        
-        .dashboard {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .node-card {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            transition: transform 0.3s ease;
-        }
-        
-        .node-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .node-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 10px;
-        }
-        
-        .node-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: #2c3e50;
-            margin: 0;
-        }
-        
-        .node-id {
-            background-color: #3498db;
-            color: white;
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-        }
-        
-        .sensor-data {
-            margin-top: 15px;
-        }
-        
-        .sensor-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            padding: 10px;
-            background-color: #f8f9fa;
-            border-radius: 5px;
-        }
-        
-        .sensor-value {
-            font-weight: 600;
-            color: #2980b9;
-        }
-        
-        .chart-container {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            margin-top: 30px;
-        }
-        
-        .last-update {
-            text-align: right;
-            font-size: 12px;
-            color: #7f8c8d;
-            margin-top: 10px;
-        }
-        
-        @media (max-width: 768px) {
-            .dashboard {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    <title>ESP IOT DASHBOARD</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="http://cdn.rawgit.com/Mikhus/canvas-gauges/gh-pages/download/2.1.7/all/gauge.min.js"></script>
 </head>
 <body>
-    <div class="header">
-        <h1>IoT Sensor Dashboard Greenhouse SMKN 8 Pekanbaru</h1>
-        <p>Monitoring Suhu, Kelembaban, Tekanan Udara, Intensitas Cahaya, dan Kelembaban Tanah</p>
+    <div class="topnav">
+        <h1>Greenhouse SMKN 8 Pekanbaru</h1>
     </div>
-    
-    <div class="dashboard">
-        <!-- Node 1 -->
-        <div class="node-card">
-            <div class="node-header">
-                <h2 class="node-title">Node Sensor 1</h2>
-                <span class="node-id">ID: ESP32-001</span>
+    <div class="content">
+        <div class="card-grid">
+            <div class="card">
+                <p class="card-title">Temperature (°C)</p>
+                <canvas id="gauge-temperature" width="200" height="200"></canvas>
             </div>
-            <div class="sensor-data">
-                <div class="sensor-item">
-                    <span>Suhu:</span>
-                    <span class="sensor-value" id="temp-1">-- °C</span>
-                </div>
-                <div class="sensor-item">
-                    <span>Kelembaban:</span>
-                    <span class="sensor-value" id="hum-1">-- %</span>
-                </div>
-                <div class="sensor-item">
-                    <span>Tekanan Udara:</span>
-                    <span class="sensor-value" id="press-1">-- hPa</span>
-                </div>
-                <div class="sensor-item">
-                    <span>Intensitas Cahaya:</span>
-                    <span class="sensor-value" id="light-1">-- lx</span>
-                </div>
-                <div class="sensor-item">
-                    <span>Kelembaban Tanah:</span>
-                    <span class="sensor-value" id="soil-1">-- %</span>
-                </div>
+            <div class="card">
+                <p class="card-title">Kelembaban Udara (%)</p>
+                <canvas id="gauge-humidity" width="200" height="200"></canvas>
             </div>
-            <div class="last-update" id="last-update-1">Terakhir diperbarui: --</div>
-        </div>
-        
-        <!-- Node 2 -->
-        <div class="node-card">
-            <div class="node-header">
-                <h2 class="node-title">Node Sensor 2</h2>
-                <span class="node-id">ID: ESP32-002</span>
+            <div class="card">
+                <p class="card-title">Tekanan Udara (hPa)</p>
+                <canvas id="gauge-pressure" width="200" height="200"></canvas>
             </div>
-            <div class="sensor-data">
-                <div class="sensor-item">
-                    <span>Suhu:</span>
-                    <span class="sensor-value" id="temp-2">-- °C</span>
-                </div>
-                <div class="sensor-item">
-                    <span>Kelembaban:</span>
-                    <span class="sensor-value" id="hum-2">-- %</span>
-                </div>
-                <div class="sensor-item">
-                    <span>Tekanan Udara:</span>
-                    <span class="sensor-value" id="press-2">-- hPa</span>
-                </div>
-                <div class="sensor-item">
-                    <span>Intensitas Cahaya:</span>
-                    <span class="sensor-value" id="light-2">-- lx</span>
-                </div>
-                <div class="sensor-item">
-                    <span>Kelembaban Tanah:</span>
-                    <span class="sensor-value" id="soil-2">-- %</span>
-                </div>
+            <div class="card">
+                <p class="card-title">Intensitas Cahaya (Lux)</p>
+                <canvas id="gauge-light" width="200" height="200"></canvas>
             </div>
-            <div class="last-update" id="last-update-2">Terakhir diperbarui: --</div>
-        </div>
-        
-        <!-- Node 3 -->
-        <div class="node-card">
-            <div class="node-header">
-                <h2 class="node-title">Node Sensor 3</h2>
-                <span class="node-id">ID: ESP32-003</span>
+            <div class="card">
+                <p class="card-title">Kelembaban Tanah (%)</p>
+                <canvas id="gauge-soil-moisture" width="200" height="200"></canvas>
             </div>
-            <div class="sensor-data">
-                <div class="sensor-item">
-                    <span>Suhu:</span>
-                    <span class="sensor-value" id="temp-3">-- °C</span>
-                </div>
-                <div class="sensor-item">
-                    <span>Kelembaban:</span>
-                    <span class="sensor-value" id="hum-3">-- %</span>
-                </div>
-                <div class="sensor-item">
-                    <span>Tekanan Udara:</span>
-                    <span class="sensor-value" id="press-3">-- hPa</span>
-                </div>
-                <div class="sensor-item">
-                    <span>Intensitas Cahaya:</span>
-                    <span class="sensor-value" id="light-3">-- lx</span>
-                </div>
-                <div class="sensor-item">
-                    <span>Kelembaban Tanah:</span>
-                    <span class="sensor-value" id="soil-3">-- %</span>
-                </div>
-            </div>
-            <div class="last-update" id="last-update-3">Terakhir diperbarui: --</div>
-        </div>
-        
-        <!-- Node 4 -->
-        <div class="node-card">
-            <div class="node-header">
-                <h2 class="node-title">Node Sensor 4</h2>
-                <span class="node-id">ID: ESP32-004</span>
-            </div>
-            <div class="sensor-data">
-                <div class="sensor-item">
-                    <span>Suhu:</span>
-                    <span class="sensor-value" id="temp-4">-- °C</span>
-                </div>
-                <div class="sensor-item">
-                    <span>Kelembaban:</span>
-                    <span class="sensor-value" id="hum-4">-- %</span>
-                </div>
-                <div class="sensor-item">
-                    <span>Tekanan Udara:</span>
-                    <span class="sensor-value" id="press-4">-- hPa</span>
-                </div>
-                <div class="sensor-item">
-                    <span>Intensitas Cahaya:</span>
-                    <span class="sensor-value" id="light-4">-- lx</span>
-                </div>
-                <div class="sensor-item">
-                    <span>Kelembaban Tanah:</span>
-                    <span class="sensor-value" id="soil-4">-- %</span>
-                </div>
-            </div>
-            <div class="last-update" id="last-update-4">Terakhir diperbarui: --</div>
         </div>
     </div>
-    
-    <div class="chart-container">
-        <h2>Grafik Data Sensor (Node 1)</h2>
-        <canvas id="sensorChart" height="200"></canvas>
-    </div>
-    
+    <script src="script.js"></script>
     <script>
-        // Data contoh (nanti bisa diganti dengan data real dari API)
-        const nodeData = {
-            1: {
-                temperature: 25.4,
-                humidity: 65,
-                pressure: 1013,
-                light: 1200,
-                soil: 45,
-                lastUpdate: '2025-06-15 10:30:45'
+        // Inisialisasi gauge untuk setiap sensor
+        var temperatureGauge = new Gauge("gauge-temperature").setOptions({
+            angle: 0.15,
+            lineWidth: 0.44,
+            radiusScale: 1,
+            pointer: {
+                length: 0.6,
+                strokeWidth: 0.035,
+                color: "#000000"
             },
-            2: {
-                temperature: 24.8,
-                humidity: 62,
-                pressure: 1012,
-                light: 950,
-                soil: 50,
-                lastUpdate: '2023-06-15 10:30:40'
+            limitMax: false,
+            limitMin: false,
+            highDpiSupport: true,
+            strokeColor: "#E0E0E0",
+            generateGradient: true
+        });
+        temperatureGauge.setMinValue(0);
+        temperatureGauge.setMaxValue(100);
+        temperatureGauge.set(0); // Set initial value
+
+        //var humidityGauge = new Gauge("gauge-humidity").setOptions({...});
+        //humidityGauge.setMinValue(0);
+        //humidityGauge.setMaxValue(100);
+        //humidityGauge.set(0); // Set initial value
+
+        //var pressureGauge = new Gauge("gauge-pressure").setOptions({...});
+        //pressureGauge.setMinValue(950);
+        //pressureGauge.setMaxValue(1050);
+        //pressureGauge.set(0); // Set initial value
+
+        var pressureGauge = new Gauge("gauge-pressure").setOptions({
+            angle: 0.15,
+            lineWidth: 0.44,
+            radiusScale: 1,
+            pointer: {
+                length: 0.6,
+                strokeWidth: 0.035,
+                color: "#003366"
             },
-            3: {
-                temperature: 26.1,
-                humidity: 60,
-                pressure: 1013,
-                light: 1100,
-                soil: 42,
-                lastUpdate: '17 Agustus 2025 10:30:35'
+            staticZones: [
+               {strokeStyle: "#30B32D", min: 950, max: 980}, // Good
+               {strokeStyle: "#FFDD00", min: 980, max: 1010}, // Warning
+               {strokeStyle: "#F03E3E", min: 1010, max: 1050}  // Danger
+            ],
+            limitMax: true,
+            limitMin: true,
+            highDpiSupport: true
+        });
+        pressureGauge.setMinValue(950);
+        pressureGauge.setMaxValue(1050);
+        pressureGauge.set(1013); // Average sea level pressure
+
+      var lightGauge = new Gauge("gauge-light").setOptions({
+            angle: 0.15,
+            lineWidth: 0.44,
+            radiusScale: 1,
+            pointer: {
+                length: 0.6,
+                strokeWidth: 0.035,
+                color: "#FFA500"
             },
-            4: {
-                temperature: 25.7,
-                humidity: 63,
-                pressure: 1014,
-                light: 1000,
-                soil: 48,
-                lastUpdate: '2025-06-17 10:30:50'
-            }
-        };
-        
-        // Update UI dengan data contoh
-        function updateDashboard() {
-            for (let nodeId = 1; nodeId <= 4; nodeId++) {
-                const data = nodeData[nodeId];
-                
-                document.getElementById(`temp-${nodeId}`).textContent = `${data.temperature} °C`;
-                document.getElementById(`hum-${nodeId}`).textContent = `${data.humidity} %`;
-                document.getElementById(`press-${nodeId}`).textContent = `${data.pressure} hPa`;
-                document.getElementById(`light-${nodeId}`).textContent = `${data.light} lx`;
-                document.getElementById(`soil-${nodeId}`).textContent = `${data.soil} %`;
-                document.getElementById(`last-update-${nodeId}`).textContent = `Terakhir diperbarui: ${data.lastUpdate}`;
-            }
+            colorPlate: "#222",
+            colorMajorTicks: "#f5f5f5",
+            highlights: [
+                {from: 0, to: 1000, color: "rgba(0,150,136,0.3)"},     // Low light
+                {from: 1000, to: 5000, color: "rgba(255,235,59,0.3)"}, // Medium
+                {from: 5000, to: 10000, color: "rgba(255,87,34,0.3)"}  // Bright
+            ],
+            highDpiSupport: true
+        });
+        lightGauge.setMinValue(0);
+        lightGauge.setMaxValue(10000);
+        lightGauge.set(5000); // Medium light
+      
+       var soilMoistureGauge = new Gauge("gauge-soil-moisture").setOptions({
+            angle: 0.15,
+            lineWidth: 0.44,
+            radiusScale: 1,
+            pointer: {
+                length: 0.6,
+                strokeWidth: 0.035,
+                color: "#8D6E63"
+            },
+            staticZones: [
+                {strokeStyle: "#F44336", min: 0, max: 20},    // Dry
+                {strokeStyle: "#FF9800", min: 20, max: 50},   // Getting dry
+                {strokeStyle: "#8BC34A", min: 50, max: 80},   // Optimal
+                {strokeStyle: "#2196F3", min: 80, max: 100}   // Wet
+            ],
+            highDpiSupport: true
+        });
+        soilMoistureGauge.setMinValue(0);
+        soilMoistureGauge.setMaxValue(100);
+        soilMoistureGauge.set(50); // Optimal moisture
+
+        // Fungsi untuk memperbarui nilai gauge dari sensor
+        function updateGauges(data) {
+            temperatureGauge.set(data.temperature);
+            humidityGauge.set(data.humidity);
+            pressureGauge.set(data.pressure);
+            lightGauge.set(data.light);
+            soilMoistureGauge.set(data.soilMoisture);
         }
-        
-        // Inisialisasi grafik
-        function initChart() {
-            const ctx = document.getElementById('sensorChart').getContext('2d');
-            const chart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: ['00:00', '03:00', '06:00', '09:00', '12:00', '15:00', '18:00', '21:00'],
-                    datasets: [
-                        {
-                            label: 'Suhu (°C)',
-                            data: [23.5, 22.8, 23.1, 25.4, 26.7, 27.3, 25.9, 24.5],
-                            borderColor: 'rgb(255, 99, 132)',
-                            backgroundColor: 'rgba(255, 99, 132, 0.1)',
-                            tension: 0.3
-                        },
-                        {
-                            label: 'Kelembaban (%)',
-                            data: [70, 72, 68, 65, 60, 58, 62, 67],
-                            borderColor: 'rgb(54, 162, 235)',
-                            backgroundColor: 'rgba(54, 162, 235, 0.1)',
-                            tension: 0.3
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                        title: {
-                            display: true,
-                            text: 'Riwayat Sensor 24 Jam Terakhir'
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: false
-                        }
-                    }
-                }
-            });
-        }
-        
-        // Fungsi untuk mengambil data dari server (simulasi)
-        function fetchData() {
-            // Di sini Anda bisa menambahkan kode untuk mengambil data dari ESP32
-            // Contoh:
-            // fetch('https://api-anda.com/sensor-data')
-            //   .then(response => response.json())
-            //   .then(data => {
-            //       // Proses data dan update dashboard
-            //   });
-            
-            // Untuk sekarang kita gunakan data contoh
-            updateDashboard();
-            initChart();
-        }
-        
-        // Panggil fungsi pertama kali
-        fetchData();
-        
-        // Update data setiap 5 detik
-        setInterval(fetchData, 5000);
+
+        // Contoh data untuk pengujian
+        setInterval(() => {
+            const mockData = {
+                temperature: Math.random() * 100,
+                humidity: Math.random() * 100,
+                pressure: 950 + Math.random() * 100,
+                light: Math.random() * 10000,
+                soilMoisture: Math.random() * 100
+            };
+            updateGauges(mockData);
+        }, 2000);
     </script>
 </body>
 </html>
