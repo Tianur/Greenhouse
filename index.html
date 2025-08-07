@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ESP IOT DASHBOARD</title>
-    <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <script src="http://cdn.rawgit.com/Mikhus/canvas-gauges/gh-pages/download/2.1.7/all/gauge.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard Greenhouse SMKN 8 Pekanbaru</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-doughnutlabel@latest"></script>
+  <script src="http://cdn.rawgit.com/Mikhus/canvas-gauges/gh-pages/download/2.1.7/all/gauge.min.js"></script>
 </head>
 <body>
-    <div class="topnav">
-        <h1>Greenhouse SMKN 8 Pekanbaru</h1>
-    </div>
+  <header>
+    <h1>Dashboard Greenhouse SMKN 8 Pekanbaru</h1>
+    <p>Monitoring Suhu, Kelembaban, Tekanan, Tanah, dan Pompa</p>
+  </header>
+
+  <body>
+
     <div class="content">
         <div class="card-grid">
             <div class="card">
@@ -58,15 +63,43 @@
         temperatureGauge.setMaxValue(100);
         temperatureGauge.set(0); // Set initial value
 
-        //var humidityGauge = new Gauge("gauge-humidity").setOptions({...});
-        //humidityGauge.setMinValue(0);
-        //humidityGauge.setMaxValue(100);
-        //humidityGauge.set(0); // Set initial value
+        var humidityGauge = new Gauge("gauge-humidity").setOptions({
+            angle: 0.15,
+            lineWidth: 0.44,
+            radiusScale: 1,
+            pointer: {
+                length: 0.6,
+                strokeWidth: 0.035,
+                color: "#000000"
+            },
+            limitMax: false,
+            limitMin: false,
+            highDpiSupport: true,
+            strokeColor: "#E0E0E0",
+            generateGradient: true
+        });
+        humidityGauge.setMinValue(0);
+        humidityGauge.setMaxValue(100);
+        humidityGauge.set(0); // Set initial value
 
-        //var pressureGauge = new Gauge("gauge-pressure").setOptions({...});
-        //pressureGauge.setMinValue(950);
-        //pressureGauge.setMaxValue(1050);
-        //pressureGauge.set(0); // Set initial value
+        var pressureGauge = new Gauge("gauge-pressure").setOptions({
+            angle: 0.15,
+            lineWidth: 0.44,
+            radiusScale: 1,
+            pointer: {
+                length: 0.6,
+                strokeWidth: 0.035,
+                color: "#000000"
+            },
+            limitMax: false,
+            limitMin: false,
+            highDpiSupport: true,
+            strokeColor: "#E0E0E0",
+            generateGradient: true
+        });
+        pressureGauge.setMinValue(950);
+        pressureGauge.setMaxValue(1050);
+        pressureGauge.set(0); // Set initial value
 
         var pressureGauge = new Gauge("gauge-pressure").setOptions({
             angle: 0.15,
@@ -155,4 +188,14 @@
         }, 2000);
     </script>
 </body>
+  
+  <footer>
+    <p>&copy; 2025 SMKN 8 Pekanbaru</p>
+  </footer>
+
+  <script src="script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-doughnutlabel@latest"></script>
+</script>
+
 </html>
