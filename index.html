@@ -20,7 +20,9 @@
     <div class="content">
         <div class="card-grid">
             <div class="card">
-                <p class="card-title">Temperature (°C)</p>
+                <p class="card-title">Temperature 
+                  <br/>(°C) <br/>
+              </p>
                 <canvas id="gauge-temperature" width="200" height="200"></canvas>
             </div>
             <div class="card">
@@ -177,15 +179,47 @@
 
         // Contoh data untuk pengujian
         setInterval(() => {
-            const mockData = {
-                temperature: Math.random() * 100,
-                humidity: Math.random() * 100,
-                pressure: 950 + Math.random() * 100,
-                light: Math.random() * 10000,
-                soilMoisture: Math.random() * 100
-            };
-            updateGauges(mockData);
-        }, 2000);
+      const mockData = {
+        temperature: Math.random() * 50,
+        humidity: Math.random() * 100,
+        pressure: 950 + Math.random() * 100,
+        light: Math.random() * 10000,
+        soilMoisture: Math.random() * 100
+      };
+      gaugeTemp.value = mockData.temperature;
+      gaugeHum.value = mockData.humidity;
+      gaugePressure.value = mockData.pressure;
+      gaugeLight.value = mockData.light;
+      gaugeSoil.value = mockData.soilMoisture;
+    }, 2000);
+
+    // EventSource for real-time updates
+    if (!!window.EventSource) {
+      var source = new EventSource('/events');
+      source.addEventListener('open', function(e) {
+        console.log("Events Connected");
+      }, false);
+      source.addEventListener('error', function(e) {
+        if (e.target.readyState != EventSource.OPEN) {
+          console.log("Events Disconnected");
+        }
+      }, false);
+      source.addEventListener('message', function(e) {
+        console.log("message", e.data);
+      }, false);
+      source.addEventListener('new_readings', function(e) {
+        console.log("new_readings", e.data);
+        var myObj = JSON.parse(e.data);
+        gaugeTemp.value = myObj.temperature;
+        gaugeHum.value = myObj.humidity;
+        gaugePressure.value = myObj.pressure;
+        gaugeLight.value = myObj.light;
+        gaugeSoil.value = myObj.soilMoisture;
+      }, false);
+    }
+
+    // Load readings on page load
+    window.addEventListener('load', getReadings);
     </script>
 </body>
   
