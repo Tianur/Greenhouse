@@ -37,6 +37,7 @@
       border-radius: 12px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
       padding: 1.5rem;
+      margin-bottom: 1.5rem;
       text-align: center;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
@@ -83,6 +84,23 @@
     .pump-status.off {
       color: red;
     }
+    .charts-section {
+      margin-top: 2rem;
+    }
+    .chart-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .chart-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #034078;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
     footer {
       text-align: center;
       padding: 1rem;
@@ -97,9 +115,11 @@
       .gauge-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
       .gauge-title { font-size: 1rem; }
       .pump-status { font-size: 1rem; }
+      .chart-title { font-size: 1.3rem; }
     }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/canvas-gauges@2.1.7/gauge.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 </head>
 <body>
   <header>
@@ -107,33 +127,142 @@
     <p>Monitoring Suhu, Kelembaban, Tekanan, Cahaya, Tanah, dan Pompa</p>
   </header>
   <div class="content">
-    <div class="card">
+    <div class="card" id="node-1">
       <p class="card-title">Node 1</p>
       <div class="gauge-grid">
         <div class="gauge-item">
           <p class="gauge-title">Suhu (°C)</p>
-          <canvas id="gauge-temperature"></canvas>
+          <canvas id="gauge-temperature-1"></canvas>
         </div>
         <div class="gauge-item">
           <p class="gauge-title">Kelembaban Udara (%)</p>
-          <canvas id="gauge-humidity"></canvas>
+          <canvas id="gauge-humidity-1"></canvas>
         </div>
         <div class="gauge-item">
           <p class="gauge-title">Tekanan Udara (hPa)</p>
-          <canvas id="gauge-pressure"></canvas>
+          <canvas id="gauge-pressure-1"></canvas>
         </div>
         <div class="gauge-item">
           <p class="gauge-title">Intensitas Cahaya (Lux)</p>
-          <canvas id="gauge-light"></canvas>
+          <canvas id="gauge-light-1"></canvas>
         </div>
         <div class="gauge-item">
           <p class="gauge-title">Kelembaban Tanah (%)</p>
-          <canvas id="gauge-soil-moisture"></canvas>
+          <canvas id="gauge-soil-moisture-1"></canvas>
         </div>
         <div class="gauge-item">
           <p class="gauge-title">Status Pompa</p>
-          <div id="pump-status" class="pump-status">OFF</div>
+          <div id="pump-status-1" class="pump-status">OFF</div>
         </div>
+      </div>
+    </div>
+    <div class="card" id="node-2">
+      <p class="card-title">Node 2</p>
+      <div class="gauge-grid">
+        <div class="gauge-item">
+          <p class="gauge-title">Suhu (°C)</p>
+          <canvas id="gauge-temperature-2"></canvas>
+        </div>
+        <div class="gauge-item">
+          <p class="gauge-title">Kelembaban Udara (%)</p>
+          <canvas id="gauge-humidity-2"></canvas>
+        </div>
+        <div class="gauge-item">
+          <p class="gauge-title">Tekanan Udara (hPa)</p>
+          <canvas id="gauge-pressure-2"></canvas>
+        </div>
+        <div class="gauge-item">
+          <p class="gauge-title">Intensitas Cahaya (Lux)</p>
+          <canvas id="gauge-light-2"></canvas>
+        </div>
+        <div class="gauge-item">
+          <p class="gauge-title">Kelembaban Tanah (%)</p>
+          <canvas id="gauge-soil-moisture-2"></canvas>
+        </div>
+        <div class="gauge-item">
+          <p class="gauge-title">Status Pompa</p>
+          <div id="pump-status-2" class="pump-status">OFF</div>
+        </div>
+      </div>
+    </div>
+    <div class="card" id="node-3">
+      <p class="card-title">Node 3</p>
+      <div class="gauge-grid">
+        <div class="gauge-item">
+          <p class="gauge-title">Suhu (°C)</p>
+          <canvas id="gauge-temperature-3"></canvas>
+        </div>
+        <div class="gauge-item">
+          <p class="gauge-title">Kelembaban Udara (%)</p>
+          <canvas id="gauge-humidity-3"></canvas>
+        </div>
+        <div class="gauge-item">
+          <p class="gauge-title">Tekanan Udara (hPa)</p>
+          <canvas id="gauge-pressure-3"></canvas>
+        </div>
+        <div class="gauge-item">
+          <p class="gauge-title">Intensitas Cahaya (Lux)</p>
+          <canvas id="gauge-light-3"></canvas>
+        </div>
+        <div class="gauge-item">
+          <p class="gauge-title">Kelembaban Tanah (%)</p>
+          <canvas id="gauge-soil-moisture-3"></canvas>
+        </div>
+        <div class="gauge-item">
+          <p class="gauge-title">Status Pompa</p>
+          <div id="pump-status-3" class="pump-status">OFF</div>
+        </div>
+      </div>
+    </div>
+    <div class="card" id="node-4">
+      <p class="card-title">Node 4</p>
+      <div class="gauge-grid">
+        <div class="gauge-item">
+          <p class="gauge-title">Suhu (°C)</p>
+          <canvas id="gauge-temperature-4"></canvas>
+        </div>
+        <div class="gauge-item">
+          <p class="gauge-title">Kelembaban Udara (%)</p>
+          <canvas id="gauge-humidity-4"></canvas>
+        </div>
+        <div class="gauge-item">
+          <p class="gauge-title">Tekanan Udara (hPa)</p>
+          <canvas id="gauge-pressure-4"></canvas>
+        </div>
+        <div class="gauge-item">
+          <p class="gauge-title">Intensitas Cahaya (Lux)</p>
+          <canvas id="gauge-light-4"></canvas>
+        </div>
+        <div class="gauge-item">
+          <p class="gauge-title">Kelembaban Tanah (%)</p>
+          <canvas id="gauge-soil-moisture-4"></canvas>
+        </div>
+        <div class="gauge-item">
+          <p class="gauge-title">Status Pompa</p>
+          <div id="pump-status-4" class="pump-status">OFF</div>
+        </div>
+      </div>
+    </div>
+    <div class="charts-section">
+      <div class="chart-card">
+        <p class="chart-title">Suhu (°C)</p>
+        <canvas id="chart-temperature"></canvas>
+      </div>
+      <div class="chart-card">
+        <p class="chart-title">Kelembaban Udara (%)</p>
+        <canvas id="chart-humidity"></canvas>
+      </div>
+      <div class="chart-card">
+        <p class="chart-title">Tekanan Udara (hPa)</p>
+        <canvas id="chart-pressure"></canvas>
+      </div>
+      <div class="chart-card">
+        <p class="chart-title">Intensitas Cahaya (Lux)</p>
+        <canvas id="chart-light"></canvas>
+      </div>
+      <div class="chart-card">
+        <p class="chart-title">Kelembaban Tanah (%)</p>
+        <canvas id="chart-soil-moisture"></canvas>
       </div>
     </div>
   </div>
@@ -141,143 +270,195 @@
     <p>&copy; 2025 SMKN 8 Pekanbaru</p>
   </footer>
   <script>
-    // Initialize Gauges
-    var gaugeTemp = new RadialGauge({
-      renderTo: 'gauge-temperature',
-      width: 150,
-      height: 150,
-      units: "Suhu (°C)",
-      minValue: 0,
-      maxValue: 50,
-      majorTicks: ["0", "10", "20", "30", "40", "50"],
-      minorTicks: 4,
-      strokeTicks: true,
-      highlights: [
-        { from: 0, to: 25, color: "#FFEB3B" },
-        { from: 25, to: 30, color: "#4CAF50" },
-        { from: 30, to: 50, color: "#FF5722" }
-      ],
-      colorPlate: "#fff",
-      borderShadowWidth: 0,
-      borders: false,
-      needleType: "arrow",
-      needleWidth: 2,
-      colorNeedle: "#007F80",
-      colorNeedleEnd: "#007F80",
-      needleCircleOuter: true,
-      animationDuration: 1500,
-      animationRule: "linear"
-    }).draw();
-    var gaugeHum = new RadialGauge({
-      renderTo: 'gauge-humidity',
-      width: 150,
-      height: 150,
-      units: "Kelembaban (%)",
-      minValue: 0,
-      maxValue: 100,
-      majorTicks: ["0", "20", "40", "60", "80", "100"],
-      minorTicks: 4,
-      strokeTicks: true,
-      highlights: [{ from: 80, to: 100, color: "#03C0C1" }],
-      colorPlate: "#fff",
-      borderShadowWidth: 0,
-      borders: false,
-      needleType: "arrow",
-      needleWidth: 2,
-      colorNeedle: "#007F80",
-      colorNeedleEnd: "#007F80",
-      needleCircleOuter: true,
-      animationDuration: 1500,
-      animationRule: "linear"
-    }).draw();
-    var gaugePressure = new RadialGauge({
-      renderTo: 'gauge-pressure',
-      width: 150,
-      height: 150,
-      units: "Tekanan (hPa)",
-      minValue: 950,
-      maxValue: 1050,
-      majorTicks: ["950", "970", "990", "1010", "1030", "1050"],
-      minorTicks: 4,
-      strokeTicks: true,
-      highlights: [
-        { from: 950, to: 980, color: "#FF5722" },
-        { from: 980, to: 1010, color: "#FFEB3B" },
-        { from: 1010, to: 1050, color: "#4CAF50" }
-      ],
-      colorPlate: "#fff",
-      borderShadowWidth: 0,
-      borders: false,
-      needleType: "arrow",
-      needleWidth: 2,
-      colorNeedle: "#003366",
-      colorNeedleEnd: "#003366",
-      needleCircleOuter: true,
-      animationDuration: 1500,
-      animationRule: "linear"
-    }).draw();
-    var gaugeLight = new RadialGauge({
-      renderTo: 'gauge-light',
-      width: 150,
-      height: 150,
-      units: "Cahaya (Lux)",
-      minValue: 0,
-      maxValue: 10000,
-      majorTicks: ["0", "2000", "4000", "6000", "8000", "10000"],
-      minorTicks: 4,
-      strokeTicks: true,
-      highlights: [
-        { from: 0, to: 1000, color: "#37474F" },
-        { from: 1000, to: 5000, color: "#FFEB3B" },
-        { from: 5000, to: 10000, color: "#FFC107" }
-      ],
-      colorPlate: "#fff",
-      borderShadowWidth: 0,
-      borders: false,
-      needleType: "arrow",
-      needleWidth: 2,
-      colorNeedle: "#FFA500",
-      colorNeedleEnd: "#FFA500",
-      needleCircleOuter: true,
-      animationDuration: 1500,
-      animationRule: "linear"
-    }).draw();
-    var gaugeSoil = new RadialGauge({
-      renderTo: 'gauge-soil-moisture',
-      width: 150,
-      height: 150,
-      units: "Tanah (%)",
-      minValue: 0,
-      maxValue: 100,
-      majorTicks: ["0", "20", "40", "60", "80", "100"],
-      minorTicks: 4,
-      strokeTicks: true,
-      highlights: [
-        { from: 0, to: 20, color: "#F44336" },
-        { from: 20, to: 50, color: "#FF9800" },
-        { from: 50, to: 80, color: "#8BC34A" },
-        { from: 80, to: 100, color: "#2196F3" }
-      ],
-      colorPlate: "#fff",
-      borderShadowWidth: 0,
-      borders: false,
-      needleType: "arrow",
-      needleWidth: 2,
-      colorNeedle: "#795548",
-      colorNeedleEnd: "#795548",
-      needleCircleOuter: true,
-      animationDuration: 1500,
-      animationRule: "linear"
-    }).draw();
+    // Initialize Gauges for all nodes
+    const nodes = [1, 2, 3, 4];
+    const gauges = {
+      temperature: [],
+      humidity: [],
+      pressure: [],
+      light: [],
+      soilMoisture: []
+    };
+    const pumpStatuses = {};
+
+    nodes.forEach(node => {
+      gauges.temperature[node] = new RadialGauge({
+        renderTo: `gauge-temperature-${node}`,
+        width: 200,
+        height: 200,
+        units: "Suhu (°C)",
+        minValue: 0,
+        maxValue: 50,
+        majorTicks: ["0", "10", "20", "30", "40", "50"],
+        minorTicks: 4,
+        strokeTicks: true,
+        highlights: [
+          { from: 0, to: 25, color: "#FFEB3B" },
+          { from: 25, to: 30, color: "#4CAF50" },
+          { from: 30, to: 50, color: "#FF5722" }
+        ],
+        colorPlate: "#fff",
+        borderShadowWidth: 0,
+        borders: false,
+        needleType: "arrow",
+        needleWidth: 2,
+        colorNeedle: "#007F80",
+        colorNeedleEnd: "#007F80",
+        needleCircleOuter: true,
+        animationDuration: 1500,
+        animationRule: "linear"
+      }).draw();
+      gauges.humidity[node] = new RadialGauge({
+        renderTo: `gauge-humidity-${node}`,
+        width: 200,
+        height: 200,
+        units: "Kelembaban (%)",
+        minValue: 0,
+        maxValue: 100,
+        majorTicks: ["0", "20", "40", "60", "80", "100"],
+        minorTicks: 4,
+        strokeTicks: true,
+        highlights: [{ from: 80, to: 100, color: "#03C0C1" }],
+        colorPlate: "#fff",
+        borderShadowWidth: 0,
+        borders: false,
+        needleType: "arrow",
+        needleWidth: 2,
+        colorNeedle: "#007F80",
+        colorNeedleEnd: "#007F80",
+        needleCircleOuter: true,
+        animationDuration: 1500,
+        animationRule: "linear"
+      }).draw();
+      gauges.pressure[node] = new RadialGauge({
+        renderTo: `gauge-pressure-${node}`,
+        width: 200,
+        height: 200,
+        units: "Tekanan (hPa)",
+        minValue: 950,
+        maxValue: 1050,
+        majorTicks: ["950", "970", "990", "1010", "1030", "1050"],
+        minorTicks: 4,
+        strokeTicks: true,
+        highlights: [
+          { from: 950, to: 980, color: "#FF5722" },
+          { from: 980, to: 1010, color: "#FFEB3B" },
+          { from: 1010, to: 1050, color: "#4CAF50" }
+        ],
+        colorPlate: "#fff",
+        borderShadowWidth: 0,
+        borders: false,
+        needleType: "arrow",
+        needleWidth: 2,
+        colorNeedle: "#003366",
+        colorNeedleEnd: "#003366",
+        needleCircleOuter: true,
+        animationDuration: 1500,
+        animationRule: "linear"
+      }).draw();
+      gauges.light[node] = new RadialGauge({
+        renderTo: `gauge-light-${node}`,
+        width: 200,
+        height: 200,
+        units: "Cahaya (Lux)",
+        minValue: 0,
+        maxValue: 10000,
+        majorTicks: ["0", "2000", "4000", "6000", "8000", "10000"],
+        minorTicks: 4,
+        strokeTicks: true,
+        highlights: [
+          { from: 0, to: 1000, color: "#37474F" },
+          { from: 1000, to: 5000, color: "#FFEB3B" },
+          { from: 5000, to: 10000, color: "#FFC107" }
+        ],
+        colorPlate: "#fff",
+        borderShadowWidth: 0,
+        borders: false,
+        needleType: "arrow",
+        needleWidth: 2,
+        colorNeedle: "#FFA500",
+        colorNeedleEnd: "#FFA500",
+        needleCircleOuter: true,
+        animationDuration: 1500,
+        animationRule: "linear"
+      }).draw();
+      gauges.soilMoisture[node] = new RadialGauge({
+        renderTo: `gauge-soil-moisture-${node}`,
+        width: 200,
+        height: 200,
+        units: "Tanah (%)",
+        minValue: 0,
+        maxValue: 100,
+        majorTicks: ["0", "20", "40", "60", "80", "100"],
+        minorTicks: 4,
+        strokeTicks: true,
+        highlights: [
+          { from: 0, to: 20, color: "#F44336" },
+          { from: 20, to: 50, color: "#FF9800" },
+          { from: 50, to: 80, color: "#8BC34A" },
+          { from: 80, to: 100, color: "#2196F3" }
+        ],
+        colorPlate: "#fff",
+        borderShadowWidth: 0,
+        borders: false,
+        needleType: "arrow",
+        needleWidth: 2,
+        colorNeedle: "#795548",
+        colorNeedleEnd: "#795548",
+        needleCircleOuter: true,
+        animationDuration: 1500,
+        animationRule: "linear"
+      }).draw();
+      pumpStatuses[node] = document.getElementById(`pump-status-${node}`);
+    });
 
     // Set initial values
-    gaugeTemp.value = 28.5;
-    gaugeHum.value = 67.2;
-    gaugePressure.value = 1008;
-    gaugeLight.value = 4200;
-    gaugeSoil.value = 58.0;
-    document.getElementById('pump-status').textContent = 'OFF';
-    document.getElementById('pump-status').className = 'pump-status off';
+    nodes.forEach(node => {
+      gauges.temperature[node].value = 28.5;
+      gauges.humidity[node].value = 67.2;
+      gauges.pressure[node].value = 1008;
+      gauges.light[node].value = 4200;
+      gauges.soilMoisture[node].value = 58.0;
+      pumpStatuses[node].textContent = 'OFF';
+      pumpStatuses[node].className = 'pump-status off';
+    });
+
+    // Initialize Charts
+    const chartData = {
+      temperature: { labels: [], datasets: nodes.map(node => ({ label: `Node ${node}`, data: [], borderColor: `hsl(${node * 90}, 70%, 50%)`, fill: false })) },
+      humidity: { labels: [], datasets: nodes.map(node => ({ label: `Node ${node}`, data: [], borderColor: `hsl(${node * 90}, 70%, 50%)`, fill: false })) },
+      pressure: { labels: [], datasets: nodes.map(node => ({ label: `Node ${node}`, data: [], borderColor: `hsl(${node * 90}, 70%, 50%)`, fill: false })) },
+      light: { labels: [], datasets: nodes.map(node => ({ label: `Node ${node}`, data: [], borderColor: `hsl(${node * 90}, 70%, 50%)`, fill: false })) },
+      soilMoisture: { labels: [], datasets: nodes.map(node => ({ label: `Node ${node}`, data: [], borderColor: `hsl(${node * 90}, 70%, 50%)`, fill: false })) }
+    };
+
+    const charts = {
+      temperature: new Chart(document.getElementById('chart-temperature'), {
+        type: 'line',
+        data: chartData.temperature,
+        options: { scales: { y: { beginAtZero: true, max: 50 }, x: { display: false } }, plugins: { legend: { display: true } } }
+      }),
+      humidity: new Chart(document.getElementById('chart-humidity'), {
+        type: 'line',
+        data: chartData.humidity,
+        options: { scales: { y: { beginAtZero: true, max: 100 }, x: { display: false } }, plugins: { legend: { display: true } } }
+      }),
+      pressure: new Chart(document.getElementById('chart-pressure'), {
+        type: 'line',
+        data: chartData.pressure,
+        options: { scales: { y: { min: 950, max: 1050 }, x: { display: false } }, plugins: { legend: { display: true } } }
+      }),
+      light: new Chart(document.getElementById('chart-light'), {
+        type: 'line',
+        data: chartData.light,
+        options: { scales: { y: { beginAtZero: true, max: 10000 }, x: { display: false } }, plugins: { legend: { display: true } } }
+      }),
+      soilMoisture: new Chart(document.getElementById('chart-soil-moisture'), {
+        type: 'line',
+        data: chartData.soilMoisture,
+        options: { scales: { y: { beginAtZero: true, max: 100 }, x: { display: false } }, plugins: { legend: { display: true } } }
+      })
+    };
 
     // Function to fetch data from Google Apps Script
     function getReadings() {
@@ -285,47 +466,130 @@
 
       fetch(url)
         .then(response => {
-          if (!response.ok || !response.headers.get('Content-Type').includes('application/json')) {
-            throw new Error('Invalid response: ' + response.status);
+          console.log('Response status:', response.status);
+          console.log('Response headers:', response.headers.get('Content-Type'));
+          if (!response.ok) {
+            throw new Error('Network response was not ok: ' + response.status);
+          }
+          if (!response.headers.get('Content-Type').includes('application/json')) {
+            throw new Error('Response is not JSON: ' + response.headers.get('Content-Type'));
           }
           return response.json();
         })
         .then(data => {
-          const sensorData = {
-            temperature: parseFloat(data.temperature) || 28.5,
-            humidity: parseFloat(data.humidity) || 67.2,
-            pressure: parseFloat(data.pressure) || 1008,
-            light: parseFloat(data.light) || 4200,
-            soilMoisture: parseFloat(data.soilMoisture) || 58.0,
-            pump: String(data.pump).toUpperCase() || 'OFF'
-          };
-          gaugeTemp.value = sensorData.temperature;
-          gaugeHum.value = sensorData.humidity;
-          gaugePressure.value = sensorData.pressure;
-          gaugeLight.value = sensorData.light;
-          gaugeSoil.value = sensorData.soilMoisture;
-          const pumpStatus = sensorData.pump === 'ON' ? 'ON' : 'OFF';
-          document.getElementById('pump-status').textContent = pumpStatus;
-          document.getElementById('pump-status').className = `pump-status ${pumpStatus.toLowerCase()}`;
+          console.log('Received data:', data);
+          data.forEach((nodeData, index) => {
+            const node = index + 1;
+            const sensorData = {
+              temperature: parseFloat(nodeData.temperature) || 28.5,
+              humidity: parseFloat(nodeData.humidity) || 67.2,
+              pressure: parseFloat(nodeData.pressure) || 1008,
+              light: parseFloat(nodeData.light) || 4200,
+              soilMoisture: parseFloat(nodeData.soilMoisture) || 58.0,
+              pump: String(nodeData.pump).toUpperCase() || 'OFF'
+            };
+            gauges.temperature[node].value = sensorData.temperature;
+            gauges.humidity[node].value = sensorData.humidity;
+            gauges.pressure[node].value = sensorData.pressure;
+            gauges.light[node].value = sensorData.light;
+            gauges.soilMoisture[node].value = sensorData.soilMoisture;
+            const pumpStatus = sensorData.pump === 'ON' ? 'ON' : 'OFF';
+            pumpStatuses[node].textContent = pumpStatus;
+            pumpStatuses[node].className = `pump-status ${pumpStatus.toLowerCase()}`;
+
+            // Update chart data
+            chartData.temperature.datasets[index].data.push(sensorData.temperature);
+            chartData.humidity.datasets[index].data.push(sensorData.humidity);
+            chartData.pressure.datasets[index].data.push(sensorData.pressure);
+            chartData.light.datasets[index].data.push(sensorData.light);
+            chartData.soilMoisture.datasets[index].data.push(sensorData.soilMoisture);
+
+            // Keep only the last 20 data points
+            if (chartData.temperature.datasets[index].data.length > 20) {
+              chartData.temperature.datasets[index].data.shift();
+              chartData.humidity.datasets[index].data.shift();
+              chartData.pressure.datasets[index].data.shift();
+              chartData.light.datasets[index].data.shift();
+              chartData.soilMoisture.datasets[index].data.shift();
+            }
+          });
+
+          // Update chart labels
+          const now = new Date().toLocaleTimeString();
+          chartData.temperature.labels.push(now);
+          chartData.humidity.labels.push(now);
+          chartData.pressure.labels.push(now);
+          chartData.light.labels.push(now);
+          chartData.soilMoisture.labels.push(now);
+          if (chartData.temperature.labels.length > 20) {
+            chartData.temperature.labels.shift();
+            chartData.humidity.labels.shift();
+            chartData.pressure.labels.shift();
+            chartData.light.labels.shift();
+            chartData.soilMoisture.labels.shift();
+          }
+
+          // Update charts
+          Object.values(charts).forEach(chart => chart.update());
         })
         .catch(error => {
           console.error('Error fetching data:', error);
+          fetch(url)
+            .then(res => res.text())
+            .then(text => console.log('Raw response:', text))
+            .catch(err => console.error('Error fetching raw response:', err));
           // Fallback to mock data
-          const mockData = {
-            temperature: Math.random() * 50,
-            humidity: Math.random() * 100,
-            pressure: 950 + Math.random() * 100,
-            light: Math.random() * 10000,
-            soilMoisture: Math.random() * 100,
-            pump: Math.random() > 0.5 ? 'ON' : 'OFF'
-          };
-          gaugeTemp.value = mockData.temperature;
-          gaugeHum.value = mockData.humidity;
-          gaugePressure.value = mockData.pressure;
-          gaugeLight.value = mockData.light;
-          gaugeSoil.value = mockData.soilMoisture;
-          document.getElementById('pump-status').textContent = mockData.pump;
-          document.getElementById('pump-status').className = `pump-status ${mockData.pump.toLowerCase()}`;
+          nodes.forEach(node => {
+            const mockData = {
+              temperature: Math.random() * 50,
+              humidity: Math.random() * 100,
+              pressure: 950 + Math.random() * 100,
+              light: Math.random() * 10000,
+              soilMoisture: Math.random() * 100,
+              pump: Math.random() > 0.5 ? 'ON' : 'OFF'
+            };
+            gauges.temperature[node].value = mockData.temperature;
+            gauges.humidity[node].value = mockData.humidity;
+            gauges.pressure[node].value = mockData.pressure;
+            gauges.light[node].value = mockData.light;
+            gauges.soilMoisture[node].value = mockData.soilMoisture;
+            pumpStatuses[node].textContent = mockData.pump;
+            pumpStatuses[node].className = `pump-status ${mockData.pump.toLowerCase()}`;
+
+            // Update chart data with mock data
+            chartData.temperature.datasets[node - 1].data.push(mockData.temperature);
+            chartData.humidity.datasets[node - 1].data.push(mockData.humidity);
+            chartData.pressure.datasets[node - 1].data.push(mockData.pressure);
+            chartData.light.datasets[node - 1].data.push(mockData.light);
+            chartData.soilMoisture.datasets[node - 1].data.push(mockData.soilMoisture);
+
+            // Keep only the last 20 data points
+            if (chartData.temperature.datasets[node - 1].data.length > 20) {
+              chartData.temperature.datasets[node - 1].data.shift();
+              chartData.humidity.datasets[node - 1].data.shift();
+              chartData.pressure.datasets[node - 1].data.shift();
+              chartData.light.datasets[node - 1].data.shift();
+              chartData.soilMoisture.datasets[node - 1].data.shift();
+            }
+          });
+
+          // Update chart labels
+          const now = new Date().toLocaleTimeString();
+          chartData.temperature.labels.push(now);
+          chartData.humidity.labels.push(now);
+          chartData.pressure.labels.push(now);
+          chartData.light.labels.push(now);
+          chartData.soilMoisture.labels.push(now);
+          if (chartData.temperature.labels.length > 20) {
+            chartData.temperature.labels.shift();
+            chartData.humidity.labels.shift();
+            chartData.pressure.labels.shift();
+            chartData.light.labels.shift();
+            chartData.soilMoisture.labels.shift();
+          }
+
+          // Update charts
+          Object.values(charts).forEach(chart => chart.update());
         });
     }
 
