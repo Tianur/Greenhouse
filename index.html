@@ -20,7 +20,6 @@
       padding: 1.5rem;
       box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
     }
-
     header img {
       width: 45px;
       margin-right: 15px;
@@ -35,12 +34,14 @@
       opacity: 0.9;
       margin-top: 0.3rem;
     }
+
     .container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
       gap: 20px;
       padding: 20px;
     }
+
     .node {
       background: white;
       border-radius: 15px;
@@ -55,6 +56,7 @@
       text-align: center;
       color: #004d40;
     }
+
     .sensor-data {
       display: flex;
       flex-direction: column;
@@ -79,12 +81,16 @@
     .value {
       font-weight: bold;
     }
+
     footer {
       text-align: center;
       padding: 15px;
-      background: #1e3a8a;
       color: white;
       font-size: 20px;
+      background: linear-gradient(135deg, #00bfa5, #81c784); /* Sama seperti header */
+      box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.1);
+      border-top-left-radius: 15px;
+      border-top-right-radius: 15px;
     }
   </style>
 </head>
@@ -95,7 +101,7 @@
   </header>
 
   <div class="container">
-    <!-- Template Node Sensor -->
+    <!-- Node Sensor 1–4 -->
     <div class="node" id="node1">
       <h2>Node Sensor 1</h2>
       <div class="sensor-data">
@@ -146,7 +152,7 @@
   </div>
 
   <footer>
-    <p> &copy;2025 Politeknik Caltex Riau | Smart Greenhouse System 🌿</p>
+    <p>&copy;2025 Politeknik Caltex Riau | Smart Greenhouse System 🌿</p>
     <p>Teknologi Rekayasa Mekatronika</p>
   </footer>
 
@@ -162,14 +168,16 @@
       try {
         const res = await fetch(url);
         const data = await res.json();
-        if (data && data.length > 0) {
-          const last = data[data.length - 1];
-          document.getElementById(`temp${node}`).textContent = last.temp || '--';
-          document.getElementById(`hum${node}`).textContent = last.humd || '--';
-          document.getElementById(`pres${node}`).textContent = last.pres || '--';
-          document.getElementById(`lux${node}`).textContent = last.lux || '--';
-          document.getElementById(`moist${node}`).textContent = last.moist || '--';
-          document.getElementById(`pump${node}`).textContent = last.pump || '--';
+
+        // Ambil data mulai dari N4 sampai S4 (misalnya 6 kolom: temp, humd, pres, lux, moist, pump)
+        const values = data.data[3]; // baris ke-4 (indeks 3)
+        if (values) {
+          document.getElementById(`temp${node}`).textContent = values[0] || '--';
+          document.getElementById(`hum${node}`).textContent = values[1] || '--';
+          document.getElementById(`pres${node}`).textContent = values[2] || '--';
+          document.getElementById(`lux${node}`).textContent = values[3] || '--';
+          document.getElementById(`moist${node}`).textContent = values[4] || '--';
+          document.getElementById(`pump${node}`).textContent = values[5] || '--';
         }
       } catch (err) {
         console.error('Error fetching data node ' + node, err);
