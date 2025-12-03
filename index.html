@@ -1,195 +1,206 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard Greenhouse SMKN 8 Pekanbaru</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Sensor DHT11</title>
   <style>
     body {
+      font-family: Arial, sans-serif;
       margin: 0;
-      font-family: 'Poppins', 'Segoe UI', sans-serif;
-      background: linear-gradient(to bottom right, #f2fbfc, #fff7fa);
-      color: #333;
-      line-height: 1.6;
+      padding: 20px;
+      background: #f4f4f4;
     }
-    header {
+    h1 {
       text-align: center;
-      background: linear-gradient(135deg, #00bfa5, #81c784);
-      color: white;
-      padding: 1.5rem;
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+      margin-bottom: 10px;
     }
-    header img {
-      width: 45px;
-      margin-right: 15px;
+    .subtitle {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #555;
+      font-size: 14px;
     }
-    header h1 {
-      font-size: 2rem;
-      margin: 0;
-      letter-spacing: 0.5px;
-    }
-    header p {
-      font-size: 1.1rem;
-      opacity: 0.9;
-      margin-top: 0.3rem;
-    }
-
-    .container {
+    .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 20px;
-      padding: 20px;
+      gap: 16px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      max-width: 1200px;
+      margin: 0 auto;
     }
-
-    .node {
-      background: white;
-      border-radius: 15px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      padding: 20px;
-      transition: 0.3s;
-    }
-    .node:hover {
-      transform: scale(1.02);
-    }
-    .node h2 {
-      text-align: center;
-      color: #004d40;
-    }
-
-    .sensor-data {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 15px;
-    }
-    .sensor-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: #f0f9ff;
+    .card {
+      background: #fff;
       border-radius: 10px;
-      padding: 10px 15px;
-      font-size: 20px;
+      padding: 16px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
-    .sensor-item i {
-      color: #2563eb;
-      font-size: 22px;
-      margin-right: 10px;
+    .card h2 {
+      margin: 0 0 10px;
+      font-size: 18px;
+    }
+    .timestamp {
+      font-size: 12px;
+      color: #777;
+      margin-bottom: 10px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    th, td {
+      text-align: left;
+      padding: 4px 0;
+    }
+    th {
+      width: 45%;
+      color: #555;
+    }
+    .status-ok {
+      color: green;
       font-weight: bold;
     }
-    .value {
+    .status-error {
+      color: red;
       font-weight: bold;
     }
-
-    footer {
+    .refresh-info {
       text-align: center;
-      padding: 15px;
-      color: white;
-      font-size: 20px;
-      background: linear-gradient(135deg, #00bfa5, #81c784); /* Sama seperti header */
-      box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.1);
-      border-top-left-radius: 15px;
-      border-top-right-radius: 15px;
+      font-size: 12px;
+      color: #777;
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1><i class="fa-solid fa-seedling"></i> Dashboard Greenhouse SMKN 8 Pekanbaru</h1>
-    <p>Monitoring Suhu, Kelembaban, Tekanan, Cahaya, Tanah, dan Status Pompa</p>
-  </header>
-
-  <div class="container">
-    <!-- Node Sensor 1–4 -->
-    <div class="node" id="node1">
-      <h2>Node Sensor 1</h2>
-      <div class="sensor-data">
-        <div class="sensor-item"><i class="fa-solid fa-temperature-half"></i> Suhu: <span class="value" id="temp1">--</span> °C</div>
-        <div class="sensor-item"><i class="fa-solid fa-droplet"></i> Kelembaban Udara: <span class="value" id="hum1">--</span> %</div>
-        <div class="sensor-item"><i class="fa-solid fa-gauge"></i> Tekanan Udara: <span class="value" id="pres1">--</span> hPa</div>
-        <div class="sensor-item"><i class="fa-solid fa-sun"></i> Intensitas Cahaya: <span class="value" id="lux1">--</span> lux</div>
-        <div class="sensor-item"><i class="fa-solid fa-water"></i> Kelembaban Tanah: <span class="value" id="moist1">--</span> %</div>
-        <div class="sensor-item"><i class="fa-solid fa-faucet"></i> Status Pompa: <span class="value" id="pump1">--</span></div>
-      </div>
-    </div>
-
-    <div class="node" id="node2">
-      <h2>Node Sensor 2</h2>
-      <div class="sensor-data">
-        <div class="sensor-item"><i class="fa-solid fa-temperature-half"></i> Suhu: <span class="value" id="temp2">--</span> °C</div>
-        <div class="sensor-item"><i class="fa-solid fa-droplet"></i> Kelembaban Udara: <span class="value" id="hum2">--</span> %</div>
-        <div class="sensor-item"><i class="fa-solid fa-gauge"></i> Tekanan Udara: <span class="value" id="pres2">--</span> hPa</div>
-        <div class="sensor-item"><i class="fa-solid fa-sun"></i> Intensitas Cahaya: <span class="value" id="lux2">--</span> lux</div>
-        <div class="sensor-item"><i class="fa-solid fa-water"></i> Kelembaban Tanah: <span class="value" id="moist2">--</span> %</div>
-        <div class="sensor-item"><i class="fa-solid fa-faucet"></i> Status Pompa: <span class="value" id="pump2">--</span></div>
-      </div>
-    </div>
-
-    <div class="node" id="node3">
-      <h2>Node Sensor 3</h2>
-      <div class="sensor-data">
-        <div class="sensor-item"><i class="fa-solid fa-temperature-half"></i> Suhu: <span class="value" id="temp3">--</span> °C</div>
-        <div class="sensor-item"><i class="fa-solid fa-droplet"></i> Kelembaban Udara: <span class="value" id="hum3">--</span> %</div>
-        <div class="sensor-item"><i class="fa-solid fa-gauge"></i> Tekanan Udara: <span class="value" id="pres3">--</span> hPa</div>
-        <div class="sensor-item"><i class="fa-solid fa-sun"></i> Intensitas Cahaya: <span class="value" id="lux3">--</span> lux</div>
-        <div class="sensor-item"><i class="fa-solid fa-water"></i> Kelembaban Tanah: <span class="value" id="moist3">--</span> %</div>
-        <div class="sensor-item"><i class="fa-solid fa-faucet"></i> Status Pompa: <span class="value" id="pump3">--</span></div>
-      </div>
-    </div>
-
-    <div class="node" id="node4">
-      <h2>Node Sensor 4</h2>
-      <div class="sensor-data">
-        <div class="sensor-item"><i class="fa-solid fa-temperature-half"></i> Suhu: <span class="value" id="temp4">--</span> °C</div>
-        <div class="sensor-item"><i class="fa-solid fa-droplet"></i> Kelembaban Udara: <span class="value" id="hum4">--</span> %</div>
-        <div class="sensor-item"><i class="fa-solid fa-gauge"></i> Tekanan Udara: <span class="value" id="pres4">--</span> hPa</div>
-        <div class="sensor-item"><i class="fa-solid fa-sun"></i> Intensitas Cahaya: <span class="value" id="lux4">--</span> lux</div>
-        <div class="sensor-item"><i class="fa-solid fa-water"></i> Kelembaban Tanah: <span class="value" id="moist4">--</span> %</div>
-        <div class="sensor-item"><i class="fa-solid fa-faucet"></i> Status Pompa: <span class="value" id="pump4">--</span></div>
-      </div>
-    </div>
+  <h1>Dashboard Sensor IoT</h1>
+  <div class="subtitle">
+    Greenhouse
   </div>
 
-  <footer>
-    <p>&copy;2025 Politeknik Caltex Riau | Smart Greenhouse System 🌿</p>
-    <p>Teknologi Rekayasa Mekatronika</p>
-  </footer>
+  <div class="grid" id="cards-container">
+    <!-- Kartu node akan dibuat via JavaScript -->
+  </div>
+
+  <div class="refresh-info">
+    Otomatis refresh setiap 30 detik.
+  </div>
 
   <script>
-    const urls = [
-      'https://script.google.com/macros/s/AKfycbxM5w30luJ-j22dPUWJhaFEHF1WuTLqN3tbKWfD_Y4qiQv6mPLr2lnnQ_bNwGUErfoN/exec?sts=read',
-      'https://script.google.com/macros/s/AKfycbxM5w30luJ-j22dPUWJhaFEHF1WuTLqN3tbKWfD_Y4qiQv6mPLr2lnnQ_bNwGUErfoN/exec?sts=read',
-      'https://script.google.com/macros/s/AKfycbxM5w30luJ-j22dPUWJhaFEHF1WuTLqN3tbKWfD_Y4qiQv6mPLr2lnnQ_bNwGUErfoN/exec?sts=read',
-      'https://script.google.com/macros/s/AKfycbxM5w30luJ-j22dPUWJhaFEHF1WuTLqN3tbKWfD_Y4qiQv6mPLr2lnnQ_bNwGUErfoN/exec?sts=read'
+    const SHEET_ID = '1M5ZpNznzEYGM0CnCxf3WTAYjaCkQiGA_TD-reMynzU8';
+    const NODES = ['node1', 'node2', 'node3', 'node4'];
+
+    // Mapping kolom (K4–S4) ke nama field
+    const FIELD_NAMES = [
+      'Tanggal',
+      'Waktu',
+      'Status Pembacaan',
+      'Temperature (°C)',
+      'Humidity (%)',
+      'Tekanan Udara',
+      'Intensitas Cahaya',
+      'Kelembaban Tanah',
+      'Status Pompa'
     ];
 
-    async function updateNodeData(node, url) {
-      try {
-        const res = await fetch(url);
-        const data = await res.json();
+    function buildSheetUrl(sheetName) {
+      // gviz JSON output
+      return `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${sheetName}&range=K4:S4`;
+    }
 
-        // Ambil data mulai dari N4 sampai S4 (misalnya 6 kolom: temp, humd, pres, lux, moist, pump)
-        const values = data.data[3]; // baris ke-4 (indeks 3)
-        if (values) {
-          document.getElementById(`temp${node}`).textContent = values[0] || '--';
-          document.getElementById(`hum${node}`).textContent = values[1] || '--';
-          document.getElementById(`pres${node}`).textContent = values[2] || '--';
-          document.getElementById(`lux${node}`).textContent = values[3] || '--';
-          document.getElementById(`moist${node}`).textContent = values[4] || '--';
-          document.getElementById(`pump${node}`).textContent = values[5] || '--';
+    async function fetchNodeData(sheetName) {
+      const url = buildSheetUrl(sheetName);
+      const res = await fetch(url);
+      const text = await res.text();
+
+      // Response bentuknya: google.visualization.Query.setResponse({...});
+      const jsonText = text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1);
+      const data = JSON.parse(jsonText);
+
+      const row = data.table.rows[0]; // K4–S4 satu baris saja
+
+      const result = {};
+      FIELD_NAMES.forEach((name, i) => {
+        const cell = row.c[i];
+        result[name] = cell ? cell.v : '';
+      });
+
+      return result;
+    }
+
+    function createCard(nodeName, data) {
+      const container = document.getElementById('cards-container');
+
+      // Hapus kartu lama jika ada
+      let oldCard = document.getElementById(`card-${nodeName}`);
+      if (oldCard) oldCard.remove();
+
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.id = `card-${nodeName}`;
+
+      // Status pembacaan & pompa
+      const statusPembacaan = data['Status Pembacaan'] || '-';
+      const statusPompa = data['Status Pompa'] || '-';
+
+      const statusClass = statusPembacaan.toLowerCase().includes('ok') ? 'status-ok' : 'status-error';
+
+      card.innerHTML = `
+        <h2>${nodeName.toUpperCase()}</h2>
+        <div class="timestamp">
+          ${data['Tanggal'] || '-'} ${data['Waktu'] || ''}
+        </div>
+        <table>
+          <tr>
+            <th>Status Pembacaan</th>
+            <td class="${statusClass}">${statusPembacaan}</td>
+          </tr>
+          <tr>
+            <th>Temperature</th>
+            <td>${data['Temperature (°C)'] || '-'} </td>
+          </tr>
+          <tr>
+            <th>Humidity</th>
+            <td>${data['Humidity (%)'] || '-'} </td>
+          </tr>
+          <tr>
+            <th>Tekanan Udara</th>
+            <td>${data['Tekanan Udara'] || '-'} </td>
+          </tr>
+          <tr>
+            <th>Intensitas Cahaya</th>
+            <td>${data['Intensitas Cahaya'] || '-'} </td>
+          </tr>
+          <tr>
+            <th>Kelembaban Tanah</th>
+            <td>${data['Kelembaban Tanah'] || '-'} </td>
+          </tr>
+          <tr>
+            <th>Status Pompa</th>
+            <td>${statusPompa}</td>
+          </tr>
+        </table>
+      `;
+
+      container.appendChild(card);
+    }
+
+    async function loadAllNodes() {
+      for (const node of NODES) {
+        try {
+          const data = await fetchNodeData(node);
+          createCard(node, data);
+        } catch (err) {
+          console.error(`Gagal mengambil data ${node}`, err);
         }
-      } catch (err) {
-        console.error('Error fetching data node ' + node, err);
       }
     }
 
-    function refreshAllNodes() {
-      urls.forEach((url, i) => updateNodeData(i + 1, url));
-    }
+    // Load pertama kali
+    loadAllNodes();
 
-    setInterval(refreshAllNodes, 5000);
-    refreshAllNodes();
+    // Auto refresh setiap 30 detik
+    setInterval(loadAllNodes, 30000);
   </script>
 </body>
 </html>
