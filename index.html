@@ -247,55 +247,67 @@
         valueBox: true, fontNumbersSize: 28
       }).draw();
 
-      // TEKANAN
+      // TEKANAN UDARA (950 – 1050 hPa)
       gauges.pressure[node] = new RadialGauge({
         renderTo: `gauge-pressure-${node}`,
-        width: 200, height: 200,
-        minValue: 950, maxValue: 1050,
+        width: 200,
+        height: 200,
+        minValue: 950,
+        maxValue: 1050,
+        majorTicks: ["950", "970", "990", "1010", "1030", "1050"],
+        minorTicks: 4,
         highlights: [
-          { from: 950, to: 990, color: "#ffb74d" },
-          { from: 990, to: 1020, color: "#81c784" },
+          { from: 950, to: 980, color: "#ffcc80" },
+          { from: 980, to: 1020, color: "#81c784" },
           { from: 1020, to: 1040, color: "#fff176" },
           { from: 1040, to: 1050, color: "#ef5350" }
         ],
+        units: "hPa",
         colorNeedle: "#455a64",
         colorPlate: "#f9f9f9",
-        valueBox: true, fontNumbersSize: 28
+        valueBox: true,
+        fontNumbersSize: 24
       }).draw();
 
-      // CAHAYA
+      // INTENSITAS CAHAYA (0 – 10000 Lux)
       gauges.light[node] = new RadialGauge({
         renderTo: `gauge-light-${node}`,
-        width: 200, height: 200,
-        minValue: 0, maxValue: 10000,
+        width: 200,
+        height: 200,
+        minValue: 0,
+        maxValue: 10000,
+        majorTicks: ["0", "2000", "4000", "6000", "8000", "10000"],
+        minorTicks: 4,
         highlights: [
-          { from: 0, to: 2000, color: "#90a4ae" },
-          { from: 2000, to: 3000, color: "#fff59d" },
-          { from: 3000, to: 7000, color: "#81c784" },
-          { from: 7000, to: 9000, color: "#ffd54f" },
-          { from: 9000, to: 10000, color: "#e57373" }
+          { from: 0, to: 2000, color: "#90a4ae" },   // Gelap
+          { from: 2000, to: 4000, color: "#fff59d" },// Redup
+          { from: 4000, to: 7000, color: "#81c784" },// Ideal
+          { from: 7000, to: 9000, color: "#ffd54f" },// Terang
+          { from: 9000, to: 10000, color: "#e57373" }// Sangat Terang
         ],
+        units: "Lux",
         colorNeedle: "#fbc02d",
         colorPlate: "#f9f9f9",
-        valueBox: true, fontNumbersSize: 28
+        valueBox: true,
+        fontNumbersSize: 24
       }).draw();
-
-      // KELEMBABAN TANAH
-      gauges.soil[node] = new RadialGauge({
-        renderTo: `gauge-soil-${node}`,
-        width: 200, height: 200,
-        minValue: 0, maxValue: 100,
-        highlights: [
-          { from: 0, to: 30, color: "#ffcc80" },
-          { from: 30, to: 70, color: "#81c784" },
-          { from: 70, to: 85, color: "#64b5f6" },
-          { from: 85, to: 100, color: "#ef5350" }
-        ],
-        colorNeedle: "#6d4c41",
-        colorPlate: "#f9f9f9",
-        valueBox: true, fontNumbersSize: 28
-      }).draw();
-    });
+      
+            // KELEMBABAN TANAH
+            gauges.soil[node] = new RadialGauge({
+              renderTo: `gauge-soil-${node}`,
+              width: 200, height: 200,
+              minValue: 0, maxValue: 100,
+              highlights: [
+                { from: 0, to: 30, color: "#ffcc80" },
+                { from: 30, to: 70, color: "#81c784" },
+                { from: 70, to: 85, color: "#64b5f6" },
+                { from: 85, to: 100, color: "#ef5350" }
+              ],
+              colorNeedle: "#6d4c41",
+              colorPlate: "#f9f9f9",
+              valueBox: true, fontNumbersSize: 28
+            }).draw();
+          });
 
     // === Fungsi untuk membaca data dari Google Apps Script ===
     async function loadSheetData(sheetName) {
@@ -347,4 +359,5 @@
     updateDisplay(); // Panggil pertama kali
   </script>
 </body>
+
 </html>
